@@ -134,6 +134,13 @@ define([
         this.geocodeSuccess = ko.observable(null);
         this.geocodeLoading = ko.observable(false);
 
+        // load pre-set address fields
+        const urlParams = new URLSearchParams(window.location.search)
+        const inputAddress = urlParams.get('inputAddress')
+        if (inputAddress) {
+            this.geocodeString(inputAddress)
+        }
+
         this.viewTrigger = function() {
             self.geocodeString('');
             self.state('trigger');
@@ -225,11 +232,13 @@ define([
         };
 
         this.geocode = function() {
+            console.log('--- geocode string: ', )
             if (self.geocodeLoading()) {
                 return;
             }
             if (self.geocodeSuccess() !== null) {
-                self.geocodeString('');
+                // dont remove the 
+                // self.geocodeString('');
             } else if (self.geocodeString()) {
                 self.geocodeLoading(true);
                 $.ajax({
@@ -251,7 +260,13 @@ define([
                                 self.olMap.getView().fit(geom, self.olMap.getSize());
                             }
                             geom = geojsonFormat.writeGeometry(geom);
-                            self.geometry(geom);
+                            // self.geometry(geom); // original safe geom save
+                            // add inputAddress to state
+                            const supersetGeom = {
+                                ...JSON.parse(geom),
+                                inputAddress: self.geocodeString()
+                            }
+                            self.geometry(JSON.stringify(supersetGeom));
                             if (!self.title() && feature.attributes.record_name) {
                                 self.title(feature.attributes.record_name);
                             }
@@ -269,8 +284,13 @@ define([
                 });
             }
         };
-
+        
         this.queryString = ko.computed(function() {
+            console.log('lnlnln HELLOW?!')
+            console.log('--- RUNNING QUERY STRING -- TESTING')
+            console.log('---- HEY LOOK HERE')
+            console.log(this.triggeredFeeViewModels())
+
             var feeViewModelJSON = {};
             _.each(this.feeViewModels(), function(feeViewModel) {
                 var feeJSON = feeViewModel.json();
@@ -278,10 +298,13 @@ define([
                     feeViewModelJSON[feeViewModel.name] = feeJSON;
                 }
             });
+
             var appJSON = {
                 state: this.state(),
-                fees: JSON.stringify(feeViewModelJSON)
+                fees: JSON.stringify(feeViewModelJSON),
+                inputAddress: extractInputAddress(this.geometry())
             };
+            console.log('App json: ', appJSON)
             this.paramNames.forEach(function(name) {
                 appJSON[name] = ko.unwrap(self[name]);
             });
@@ -298,3 +321,15 @@ define([
 
     return App;
 });
+
+function extractInputAddress(geometry) {
+    let inputAddress = null
+    if (geometry) {
+        try {
+            inputAddress = JSON.parse(geometry)?.inputAddress ?? null 
+        } catch(e) {
+            console.error('error loading address')
+        }
+    }
+    return inputAddress
+}
