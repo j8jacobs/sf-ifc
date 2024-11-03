@@ -284,9 +284,13 @@ define([
                 });
             }
         };
-
+        
         this.queryString = ko.computed(function() {
-            console.log('--- RUNNING QUERY STRING')
+            console.log('lnlnln HELLOW?!')
+            console.log('--- RUNNING QUERY STRING -- TESTING')
+            console.log('---- HEY LOOK HERE')
+            console.log(this.triggeredFeeViewModels())
+
             var feeViewModelJSON = {};
             _.each(this.feeViewModels(), function(feeViewModel) {
                 var feeJSON = feeViewModel.json();

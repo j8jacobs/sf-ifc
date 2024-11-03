@@ -71,22 +71,34 @@
             </div>
             <div class="bg-gray-200 p-6 rounded-md">
                 <div class="text-xl mb-3 flex space-x-2 items-center">
-                    3. Display applicable fees
+                    3. Applicable fees
                 </div>
                 <div data-bind="if: triggeredFeeViewModels().length > 0">
-                    <ul class="space-y-2" data-bind="foreach: triggeredFeeViewModels">
-                        <li class="p-2 bg-gray-50 rounded-md">
+                    <ul class="space-y-4" data-bind="foreach: triggeredFeeViewModels">
+                        <li class="p-2 bg-white rounded-md">
                             <span data-bind="text: label"></span>
+                            <!-- 
+                            TODO: add status icons
                             <span class="fa-stack">
                                 <i class="fa fa-circle fa-stack-1x ready-check-background"></i>
                                 <i class="fa fa-circle-o fa-stack-1x ready-check-circle"></i>
                                 <i class="fa fa-check ready-check fa-stack-1x" aria-hidden="true" data-bind="visible: ready()"></i>
-                            </span>
+                            </span> 
+                            -->
+                            <!-- ko component: {
+                                name:  $data.name,
+                                params: {
+                                    fee: $data,
+                                    state: "form"
+                                }
+                            } -->
+                            <!-- /ko -->
+
                         </li>
                     </ul>
                 </div>
                 <div data-bind="if: triggeredFeeViewModels().length === 0">
-                    <code class="p-2 bg-gray-50 rounded-md mt-3 block w-fit">No fees applicable yet</code>
+                    <code class="py-2 px-4 bg-gray-50 rounded-md mt-3 block w-fit opacity-75">No fees applicable yet</code>
                 </div>
             </div>
         </div>
