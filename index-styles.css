@@ -1,0 +1,24 @@
+
+/* Basic structure that already exists fee templates */
+ form input {
+  border: solid 1px #ccc;
+  border-radius: .375rem;
+  padding: .5rem;
+  min-width: 200px;
+ }
+
+ form hr {
+  margin: 12px 0;
+ }
+
+ form label {
+  display: block;
+  /* "text-sm" copy */
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+ }
+
+ form h4 {
+  margin-top: .5rem;
+  margin-bottom: .25rem;
+ }

@@ -10,6 +10,7 @@
             type="image/vnd.microsoft.icon"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="index-styles.css">
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
             // TODO - apply infilla theme defaults or include from tailwind.config.js
@@ -49,6 +50,7 @@
                     >
                 </div>
             </div>
+            
             <div class="bg-gray-200 p-6 rounded-md">
                 <div class="text-xl mb-3 flex space-x-2 items-center">
                 2. Inputs
@@ -69,6 +71,7 @@
             </div>
                 
             </div>
+            
             <div class="bg-gray-200 p-6 rounded-md">
                 <div class="text-xl mb-3 flex space-x-2 items-center">
                     3. Applicable fees
@@ -100,6 +103,13 @@
                 <div data-bind="if: triggeredFeeViewModels().length === 0">
                     <code class="py-2 px-4 bg-gray-50 rounded-md mt-3 block w-fit opacity-75">No fees applicable yet</code>
                 </div>
+            </div>
+
+            <div class="bg-gray-200 p-6 rounded-md">
+                <div class="text-xl mb-3 flex space-x-2 items-center">
+                    4. Result
+                </div>
+                <code>TODO</code>
             </div>
         </div>
 
