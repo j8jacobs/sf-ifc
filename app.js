@@ -1,3 +1,17 @@
+// ------------------- Helpers
+function extractInputAddress(geometry) {
+    let inputAddress = null
+    if (geometry) {
+        try {
+            inputAddress = JSON.parse(geometry)?.inputAddress ?? null 
+        } catch(e) {
+            console.error('error loading address')
+        }
+    }
+    return inputAddress
+}
+
+// ------------------- App
 define([
     'knockout',
     'underscore',
@@ -321,15 +335,3 @@ define([
 
     return App;
 });
-
-function extractInputAddress(geometry) {
-    let inputAddress = null
-    if (geometry) {
-        try {
-            inputAddress = JSON.parse(geometry)?.inputAddress ?? null 
-        } catch(e) {
-            console.error('error loading address')
-        }
-    }
-    return inputAddress
-}
