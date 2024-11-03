@@ -11,19 +11,6 @@ function extractInputAddress(geometry) {
     return inputAddress
 }
 
-function getMode() {
-    switch (window.location.pathname) {
-        case '/':
-            return 'main';
-        case '/debug.html':
-            return 'debug';
-        case '/og-index.html':
-            return 'og';
-        default:
-            return 'main';
-    }
-}
-
 // ------------------- App
 define([
     'knockout',
@@ -45,11 +32,6 @@ define([
         this.reportDate = (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getFullYear();
         this.unsupportedFees = settings.unsupportedFees;
         this.codeURL = settings.codeURL;
-
-        // app context
-        // this may not be necessary in the future but for now im supporting the main app, demo and original
-        // helpful as we learn the codebase
-        this.mode = getMode()
 
         this.total = ko.computed(function() {
             var total = 0;
