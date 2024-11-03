@@ -4,7 +4,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta charset="utf-8" />
         <title>SF Planning Impact Fee Calculator</title>
-        <link rel="stylesheet" href="styles.css" />
         <link
             rel="shortcut icon"
             href="img/favicon.ico"
@@ -13,7 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
-            // TODO - apply infilla theme defaults
+            // TODO - apply infilla theme defaults or include from tailwind.config.js
             // tailwind.config = {
             //   theme: {
             //     extend: {
@@ -24,27 +23,71 @@
             //   }
             // }
         </script>
+
     </head>
 
     <body class="p-6">
         <div class="space-y-4">
-            <div class="min-h-96 bg-gray-200 p-6 rounded-md">
-                <div class="text-xl">
+            <button type="button" class="px-4 py-1 rounded-md bg-slate-400" data-bind="click: function() { window.location.href = '?'; }">
+                <i class="fa fa-refresh"></i> Restart
+            </button>
+            <div class="bg-gray-200 p-6 rounded-md">
+                <div class="text-xl mb-3 flex space-x-2 items-center">
                     1. Address Input
                     <i class="fa fa-check ready-check" aria-hidden="true" data-bind="visible: geometry()"></i>
+                    <div aria-hidden="true" data-bind="visible: geometry()">
+                        ✅
+                    </div>
                 </div>
                 <div>
-                    <input type="text" class="form-control" data-bind="value: geocodeString, valueUpdate: 'keyup', css: (geocodeSuccess() === false) ? 'shake' : '', enterKey: geocode" , placeholder="Search for an address, parcel, block, planning application or building permit">
+                    <input 
+                        id="inputAddress"
+                        type="text" 
+                        class="w-full p-2 rounded-md"
+                        data-bind="value: geocodeString, valueUpdate: 'keyup', css: (geocodeSuccess() === false) ? 'shake' : '', enterKey: geocode, disable: geocodeLoading()"
+                        placeholder="Search for an address, parcel, block, planning application or building permit"
+                    >
                 </div>
             </div>
-            <div class="min-h-96 bg-gray-200 p-6 rounded-md">
+            <div class="bg-gray-200 p-6 rounded-md">
+                <div class="text-xl mb-3 flex space-x-2 items-center">
                 2. Inputs
-                <div>- Dwelling units</div>
-                <div>- GSF of residential use</div>
-                <div>- GSF of non-residential use</div>
+                </div>
+                <div class="space-y-4">
+                <div class="">
+                    <label for="newUnits" class="block text-sm">New Dwellings</label>
+                    <input type="number" min="0" step="1" pattern="\d*" class="p-2 rounded-md" id="newUnits" placeholder="# of new dwellings" data-bind="value: newUnits, valueUpdate: 'keyup'">
+                </div>
+                <div class="">
+                    <label for="resGFA"  class="block text-sm">Increase in residential GSF</label>
+                    <input type="number" min="0" class="p-2 rounded-md" id="resGFA" placeholder="Increase in residential (GFA)" data-bind="value: resGFA, valueUpdate: 'keyup'">
+                </div>
+                <div class="">
+                    <label for="nonResGFA" class="block text-sm">Increase in non‐residential GSF</label>
+                    <input type="number" min="0" class="p-2 rounded-md" id="nonResGFA" placeholder="Increase in non‐residential (GFA)" data-bind="value: nonResGFA, valueUpdate: 'keyup'">
+                </div>
             </div>
-            <div class="min-h-96 bg-gray-200 p-6 rounded-md">
-                3. Display applicable fees
+                
+            </div>
+            <div class="bg-gray-200 p-6 rounded-md">
+                <div class="text-xl mb-3 flex space-x-2 items-center">
+                    3. Display applicable fees
+                </div>
+                <div data-bind="if: triggeredFeeViewModels().length > 0">
+                    <ul class="space-y-2" data-bind="foreach: triggeredFeeViewModels">
+                        <li class="p-2 bg-gray-50 rounded-md">
+                            <span data-bind="text: label"></span>
+                            <span class="fa-stack">
+                                <i class="fa fa-circle fa-stack-1x ready-check-background"></i>
+                                <i class="fa fa-circle-o fa-stack-1x ready-check-circle"></i>
+                                <i class="fa fa-check ready-check fa-stack-1x" aria-hidden="true" data-bind="visible: ready()"></i>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div data-bind="if: triggeredFeeViewModels().length === 0">
+                    <code class="p-2 bg-gray-50 rounded-md mt-3 block w-fit">No fees applicable yet</code>
+                </div>
             </div>
         </div>
 
