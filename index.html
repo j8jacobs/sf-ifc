@@ -109,7 +109,31 @@
                 <div class="text-xl mb-3 flex space-x-2 items-center">
                     4. Result
                 </div>
-                <code>TODO</code>
+                <div data-bind="if: triggeredFeeViewModels().length > 0">
+                    <ul class="space-y-4" data-bind="foreach: triggeredFeeViewModels">
+                        <li class="p-2 bg-white rounded-md">
+                            <span data-bind="text: label"></span>
+                            <!-- 
+                            TODO: add status icons
+                            <span class="fa-stack">
+                                <i class="fa fa-circle fa-stack-1x ready-check-background"></i>
+                                <i class="fa fa-circle-o fa-stack-1x ready-check-circle"></i>
+                                <i class="fa fa-check ready-check fa-stack-1x" aria-hidden="true" data-bind="visible: ready()"></i>
+                            </span> 
+                            -->
+                            <!-- ko component: {
+                                name:  $data.name,
+                                params: {
+                                    fee: $data,
+                                    state: "report"
+                                }
+                            } -->
+                            <!-- /ko -->
+
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
 
