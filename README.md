@@ -14,6 +14,11 @@ or
 python3 -m http.server 8000
 ```
 
+Alternatively, you can use nodemon for better live-reloading.
+1. Install nodemon `npm install -g nodemon`
+2. Run the app: `nodemon`
+- This captures the `nodemon.json` file in the base of the app. Alternatively, you can run it explicitely with `nodemon --exec "python3 -m http.server 8000" --ext py,html,css,js`
+
 The impact fee calculator will then be running at <http://localhost:8000/>
 
 [Atom](https://atom.io/) is recommended for editing, as the code is built to work with [the Atom livereload package](https://atom.io/packages/livereload).
