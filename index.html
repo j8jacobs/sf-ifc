@@ -85,7 +85,8 @@
              </div>
 
              <!-- fees -->
-             <div data-bind="foreach: feeViewModels">
+             <!-- <div data-bind="foreach: feeViewModels"> -->
+            <div data-bind="foreach: displayedFees">
                 <div class="grid grid-cols-[1fr_150px] border-b text-sm">
                      <div class="p-3 flex space-x-2" >
                         <div data-bind="text: label"></div>

@@ -312,7 +312,6 @@ define([
                 fees: JSON.stringify(feeViewModelJSON),
                 inputAddress: extractInputAddress(this.geometry())
             };
-            console.log('App json: ', appJSON)
             this.paramNames.forEach(function(name) {
                 appJSON[name] = ko.unwrap(self[name]);
             });
@@ -325,7 +324,14 @@ define([
         }, this);
 
         this.copyModBtn = window.navigator.platform === 'MacIntel' ? 'Cmd' : 'Ctrl';
-    };
+
+        this.displayedFees = ko.computed(function() {
+            // TODO may need to be more explicitely with the nullish type
+            // TODO only filter for this.geometry if there are values that come back
+            const isEmptyInput = !this.newUnits() && !this.nonResGFA() && !this.resGFA()
+            return isEmptyInput ? this.feeViewModels() : this.triggeredFeeViewModels()
+        }, this);
+    }
 
     return App;
 });
