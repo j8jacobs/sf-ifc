@@ -12,128 +12,84 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="index-styles.css">
         <script src="https://cdn.tailwindcss.com"></script>
-        <script>
-            // TODO - apply infilla theme defaults or include from tailwind.config.js
-            // tailwind.config = {
-            //   theme: {
-            //     extend: {
-            //       colors: {
-            //         primary: 'oklch(45% .079 220.7)',
-            //       }
-            //     }
-            //   }
-            // }
-        </script>
-
+        <!-- 
+        TODO import this; tailwind.config.js only exists to make the extension work atm
+        <script src="tailwind.config.js"></script> 
+        -->
     </head>
 
     <body class="p-6">
-        <div class="space-y-4">
-            <button type="button" class="px-4 py-1 rounded-md bg-slate-400" data-bind="click: function() { window.location.href = '?'; }">
-                <i class="fa fa-refresh"></i> Restart
-            </button>
-            <div class="bg-gray-200 p-6 rounded-md">
-                <div class="text-xl mb-3 flex space-x-2 items-center">
-                    1. Address Input
-                    <i class="fa fa-check ready-check" aria-hidden="true" data-bind="visible: geometry()"></i>
-                    <div aria-hidden="true" data-bind="visible: geometry()">
-                        ✅
-                    </div>
-                </div>
+        <div class="max-w-[1136px] m-auto">
+            <div class="mb-12 flex justify-between items-center">
+                <div class="text-lg font-bold">SF Calculator</div>
+                <button type="button" class="px-4 py-1 rounded-md bg-blue-400 text-white" data-bind="click: function() { window.location.href = '?'; }">
+                    Restart
+                </button>
+            </div>
+
+            <!-- inputs -->
+            <div class="grid grid-cols-1 gap-2">
                 <div>
+                    <label class="text-sm">Location</label>
                     <input 
                         id="inputAddress"
                         type="text" 
-                        class="w-full p-2 rounded-md"
+                        class="w-full p-2 rounded-md border text-sm"
                         data-bind="value: geocodeString, valueUpdate: 'keyup', css: (geocodeSuccess() === false) ? 'shake' : '', enterKey: geocode, disable: geocodeLoading()"
                         placeholder="Search for an address, parcel, block, planning application or building permit"
                     >
                 </div>
-            </div>
-            
-            <div class="bg-gray-200 p-6 rounded-md">
-                <div class="text-xl mb-3 flex space-x-2 items-center">
-                2. Inputs
-                </div>
-                <div class="space-y-4">
-                <div class="">
-                    <label for="newUnits" class="block text-sm">New Dwellings</label>
-                    <input type="number" min="0" step="1" pattern="\d*" class="p-2 rounded-md" id="newUnits" placeholder="# of new dwellings" data-bind="value: newUnits, valueUpdate: 'keyup'">
-                </div>
-                <div class="">
-                    <label for="resGFA"  class="block text-sm">Increase in residential GSF</label>
-                    <input type="number" min="0" class="p-2 rounded-md" id="resGFA" placeholder="Increase in residential (GFA)" data-bind="value: resGFA, valueUpdate: 'keyup'">
-                </div>
-                <div class="">
-                    <label for="nonResGFA" class="block text-sm">Increase in non‐residential GSF</label>
-                    <input type="number" min="0" class="p-2 rounded-md" id="nonResGFA" placeholder="Increase in non‐residential (GFA)" data-bind="value: nonResGFA, valueUpdate: 'keyup'">
-                </div>
-            </div>
-                
-            </div>
-            
-            <div class="bg-gray-200 p-6 rounded-md">
-                <div class="text-xl mb-3 flex space-x-2 items-center">
-                    3. Applicable fees
-                </div>
-                <div data-bind="if: triggeredFeeViewModels().length > 0">
-                    <ul class="space-y-4" data-bind="foreach: triggeredFeeViewModels">
-                        <li class="p-2 bg-white rounded-md">
-                            <span data-bind="text: label"></span>
-                            <!-- 
-                            TODO: add status icons
-                            <span class="fa-stack">
-                                <i class="fa fa-circle fa-stack-1x ready-check-background"></i>
-                                <i class="fa fa-circle-o fa-stack-1x ready-check-circle"></i>
-                                <i class="fa fa-check ready-check fa-stack-1x" aria-hidden="true" data-bind="visible: ready()"></i>
-                            </span> 
-                            -->
-                            <!-- ko component: {
-                                name:  $data.name,
-                                params: {
-                                    fee: $data,
-                                    state: "form"
-                                }
-                            } -->
-                            <!-- /ko -->
-
-                        </li>
-                    </ul>
-                </div>
-                <div data-bind="if: triggeredFeeViewModels().length === 0">
-                    <code class="py-2 px-4 bg-gray-50 rounded-md mt-3 block w-fit opacity-75">No fees applicable yet</code>
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <label class="text-sm">New Dwellings</label>
+                        <input 
+                            id="newUnits"
+                            type="number" 
+                            min="0" 
+                            step="1" 
+                            pattern="\d*" 
+                            class="w-full p-2 rounded-md border text-sm"
+                            placeholder="# of new dwellings" 
+                            data-bind="value: newUnits, valueUpdate: 'keyup'"
+                        >
+                    </div>
+                    <div>
+                        <label class="text-sm">Residential GFA Increase</label>
+                        <input 
+                            id="resGFA" 
+                            type="number" 
+                            min="0" 
+                            class="w-full p-2 rounded-md border text-sm" 
+                            placeholder="Increase in residential (GFA)" 
+                            data-bind="value: resGFA, valueUpdate: 'keyup'"
+                        >
+                    </div>
+                    <div>
+                        <label class="text-sm">Non-Residential GFA Increase</label>
+                        <input 
+                            id="nonResGFA" 
+                            type="number" 
+                            min="0" 
+                            class="w-full p-2 rounded-md border text-sm" 
+                            placeholder="Increase in non‐residential (GFA)" 
+                            data-bind="value: nonResGFA, valueUpdate: 'keyup'"
+                        >
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-gray-200 p-6 rounded-md">
-                <div class="text-xl mb-3 flex space-x-2 items-center">
-                    4. Result
-                </div>
-                <div data-bind="if: triggeredFeeViewModels().length > 0">
-                    <ul class="space-y-4" data-bind="foreach: triggeredFeeViewModels">
-                        <li class="p-2 bg-white rounded-md">
-                            <span data-bind="text: label"></span>
-                            <!-- 
-                            TODO: add status icons
-                            <span class="fa-stack">
-                                <i class="fa fa-circle fa-stack-1x ready-check-background"></i>
-                                <i class="fa fa-circle-o fa-stack-1x ready-check-circle"></i>
-                                <i class="fa fa-check ready-check fa-stack-1x" aria-hidden="true" data-bind="visible: ready()"></i>
-                            </span> 
-                            -->
-                            <!-- ko component: {
-                                name:  $data.name,
-                                params: {
-                                    fee: $data,
-                                    state: "report"
-                                }
-                            } -->
-                            <!-- /ko -->
+            <!-- tabs -->
+            <div class="border-b pb-4 mt-12 flex items-center space-x-4">
+                <div class="text-sm font-semibold text-gray-700 px-4 py-2 rounded-md bg-gray-200">Fee schedule</div>
+                <div class="text-sm font-semibold text-gray-700 px-4 py-2 rounded-md">Receipt</div>
+             </div>
 
-                        </li>
-                    </ul>
+             <!-- fees -->
+             <div data-bind="foreach: feeViewModels">
+                <div class="grid grid-cols-[1fr_100px] border-b text-sm">
+                     <div class="p-3" data-bind="text: label"></div>
+                    <div class="p-3">x$ x 6</div>
                 </div>
-
             </div>
         </div>
 
