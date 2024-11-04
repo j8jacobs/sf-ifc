@@ -87,7 +87,12 @@
              <!-- fees -->
              <div data-bind="foreach: feeViewModels">
                 <div class="grid grid-cols-[1fr_150px] border-b text-sm">
-                     <div class="p-3" data-bind="text: label"></div>
+                     <div class="p-3 flex space-x-2" >
+                        <div data-bind="text: label"></div>
+                        <a  data-bind="attr: {href: ($parent.codeURL + code)}" target="_blank" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">
+                            <span data-bind="text: code"></span>
+                        </a>
+                     </div>
                     <div class="p-3 text-right text-gray-400">$0.00</div>
                 </div>
             </div>
