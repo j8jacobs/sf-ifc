@@ -12,19 +12,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="index-styles.css">
         <script src="https://cdn.tailwindcss.com"></script>
-        <script>
-            // TODO - apply infilla theme defaults or include from tailwind.config.js
-            // tailwind.config = {
-            //   theme: {
-            //     extend: {
-            //       colors: {
-            //         primary: 'oklch(45% .079 220.7)',
-            //       }
-            //     }
-            //   }
-            // }
-        </script>
-
+        <!-- 
+        TODO import this; tailwind.config.js only exists to make the extension work atm
+        <script src="tailwind.config.js"></script> 
+        -->
     </head>
 
     <body class="p-6">
@@ -94,7 +85,12 @@
              </div>
 
              <!-- fees -->
-              
+             <div data-bind="foreach: feeViewModels">
+                <div class="grid grid-cols-[1fr_100px] border-b text-sm">
+                     <div class="p-3" data-bind="text: label"></div>
+                    <div class="p-3">x$ x 6</div>
+                </div>
+            </div>
         </div>
 
         <div class="loading-mask" data-bind="visible: loading"></div>
