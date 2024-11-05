@@ -92,3 +92,16 @@ requirejs([
         };
     })
 });
+
+define([], function() {
+    window.dollarFormat = function(value) {
+        // Ensure the value is a number
+        const number = parseFloat(value);
+        // Check if the number is valid
+        if (isNaN(number)) {
+            return "$0.00"; // Return a default value if input is invalid
+        }
+        // Round to two decimal places and format with dollar sign
+        return `$${number.toFixed(2)}`;
+    };
+});

@@ -171,6 +171,41 @@
 <!-- /ko -->
 
 <!-- ko if: state === 'fee-input' && fee.triggered() -->
+<div class="calc-container">
+    <div>
+        <div class="pb-2 pt-8">
+            <span class="mr-4">This project is exempt from TSF</span>
+            <div class="flex space-x-2">
+                <label>
+                    <input type="radio" name="exemptFromTSF" data-bind="checked: fee.exemptFromTSF, checkedValue: true">
+                    Yes
+                </label>
+                <label>
+                    <input type="radio" name="exemptFromTSF" data-bind="checked: fee.exemptFromTSF, checkedValue: false">
+                    No
+                </label>    
+            </div>
+        </div>
+    </div>
+    <!-- ko if: !fee.exemptFromTSF() -->
+    <div>
+        <div class="pb-2">Fees</div>
+        <div class="space-y-2">
+            <div class="flex justify-between items-center border-b pb-2">
+                <div data-bind="text: fee.calculation_landUse_Res_label"></div>
+                <div data-bind="text: fee.calculation_landUse_Res"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <div>Total</div>
+                <div data-bind="dollarsText: fee.calculatedFee"></div>
+            </div>
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+
+<!-- ko if: state === 'REMOVEMEfee-input' && fee.triggered() -->
 <div class="space-y-4">
     <div>
         <a href="https://codelibrary.amlegal.com/codes/san_francisco/latest/sf_planning/0-0-0-52333" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" target="_blank">
