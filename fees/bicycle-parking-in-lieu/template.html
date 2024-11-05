@@ -42,13 +42,37 @@
 
 <!-- ko if: state === 'fee-input' && fee.triggered() -->
 <div>
-    <input 
-        id="spacesInLieu" 
-        type="number" 
-        placeholder="value" 
-        min="0" 
-        data-bind="value: fee.spacesInLieu, valueUpdate: 'keyup', attr: { 'max': fee.maxInLieu }"
+    <!--
     >
-    spaces * <span data-bind="dollarsText: fee.inLieuFee"></span> / space = <span data-bind="dollarsText: fee.calculatedFee"></span>
+    spaces * <span data-bind="dollarsText: fee.inLieuFee"></span> / space = <span data-bind="dollarsText: fee.calculatedFee"></span> -->
+    <div class="calc-container">
+        <div>
+            <div class="pb-2 pt-8">Fees</div>
+                <div class="space-y-2">
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>Spaces</div>
+                    <input 
+                        id="spacesInLieu" 
+                        class="line-item-input"
+                        type="number" 
+                        placeholder="0" 
+                        min="0" 
+                        data-bind="value: fee.spacesInLieu, valueUpdate: 'keyup', attr: { 'max': fee.maxInLieu }"
+                    >
+                </div>
+                <div class="flex justify-between items-center border-b pb-2">
+                    <div>In-Lieu Fee</div>
+                    <div>
+                        x 
+                        <span data-bind="dollarsText: fee.inLieuFee"></span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div>Total Uncredited Fee</div>
+                    <div data-bind="dollarsText: fee.calculatedFee"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- /ko -->
