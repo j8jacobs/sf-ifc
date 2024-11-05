@@ -89,3 +89,92 @@
     </tbody>
 </table>
 <!-- /ko -->
+
+<!-- ko if: state === 'fee-input' && fee.triggered() -->
+<div class="calc-container">
+    <div>
+        <div class="pb-2 pt-8">New Construction</div>
+        <div class="space-y-2">
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Net New Residential GFA</div>
+                <input 
+                    class="line-item-input"
+                    type="number" 
+                    placeholder="0" 
+                    min="0"
+                    data-bind="value: fee.newRes, valueUpdate: 'keyup'"
+                >
+            </div>
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Fee per GFA</div>
+                <div>
+                    x 
+                    <span data-bind="dollarsText: fee.feePerNewRes"></span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center">
+                <div>Subtotal</div>
+                <div data-bind="dollarsText: fee.newRes() * fee.feePerNewRes"></div>
+            </div>
+        </div>
+
+        <div class="pb-2 pt-8">Change of Use</div>
+        <div class="space-y-2">
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Non-Residential to Residential GFA</div>
+                <input 
+                    class="line-item-input"
+                    type="number" 
+                    placeholder="0" 
+                    min="0"
+                    data-bind="value: fee.nonResToRes, valueUpdate: 'keyup'"
+                >
+            </div>
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Fee per GFA</div>
+                <div>
+                    x 
+                    <span data-bind="dollarsText: fee.feePerNonResToRes"></span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center">
+                <div>Subtotal</div>
+                <div data-bind="dollarsText: fee.nonResToRes() * fee.feePerNonResToRes"></div>
+            </div>
+        </div>
+
+        <div class="space-y-2 pt-4">
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>PDR to Residential GFA</div>
+                <input 
+                    class="line-item-input"
+                    type="number" 
+                    placeholder="0" 
+                    min="0"
+                    data-bind="value: fee.pdrToRes, valueUpdate: 'keyup'"
+                >
+            </div>
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Fee per GFA</div>
+                <div>
+                    x 
+                    <span data-bind="dollarsText: fee.feePerPDRToRes"></span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center">
+                <div>Subtotal</div>
+                <div data-bind="dollarsText: fee.pdrToRes() * fee.feePerPDRToRes"></div>
+            </div>
+        </div>
+
+        <div class="space-y-2 pt-8">
+            <div class="flex justify-between items-center">
+                <div>Total Fee</div>
+                <div data-bind="dollarsText: fee.calculatedFee"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- /ko -->
