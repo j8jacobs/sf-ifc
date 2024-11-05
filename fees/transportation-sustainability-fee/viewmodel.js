@@ -104,9 +104,26 @@ define([
             //     (this.pdrGFA() * this.pdrFee)
             // -- testing -- only returning relevant values; readjusting as well
             return (
-                (this.totalApplicableResTierFee)
+                (this.totalApplicableResTierFee())
             )
         }, this);
+
+        // -- added --
+        this.calculation_landUse_Res_label = ko.computed(function () {
+            console.log('--- newUnits? ', this.newUnits())
+            let unitTeirStr = '1-20 units (TODO => 0)'
+            if (this.newUnits() > 20 && this.newUnits() < 100) {
+                unitTeirStr = '21-99 units'
+            } else if (this.newUnits() >= 100) {
+                unitTeirStr = '100+ units'
+            }
+            return `Residential (${unitTeirStr})`
+        }, this)
+        this.calculation_landUse_Res = ko.computed(function () {
+            return `${this.resGFA() || 0}gsf * ${this.applicableResTierFee()}/gsf = ${dollarFormat(this.totalApplicableResTierFee())}`
+            // return `testing`
+        }, this)
+        
     };
 
     TransportationSustainabilityFee.settings = settings;
