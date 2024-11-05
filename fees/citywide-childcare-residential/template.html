@@ -155,12 +155,14 @@
 <!-- ko if: state === 'fee-input' && fee.triggered() -->
 <div class="space-y-4">
     <div>
-        <a href="https://codelibrary.amlegal.com/codes/san_francisco/latest/sf_planning/0-0-0-52953" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">
+        <a href="https://codelibrary.amlegal.com/codes/san_francisco/latest/sf_planning/0-0-0-52953" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" target="_blank">
             Calculation of the res child care inpact fee
         </a>
     </div>
     <div>
-        <div>Net Additionas of sqft</div>
+        <div>Net Additionas of sqft
+            <div class="italic">is this "Residential GFA Increase?"</div>
+        </div>
         <input type="number" id="newRes" placeholder="value" data-bind="value: fee.newRes, valueUpdate: 'keyup'">
         *
         <!-- <span data-bind="text: parseInt(fee.netNewUnits()) < 10 ? '$0.13/gsf': '$0.26/gsf'"></span> -->
@@ -172,7 +174,10 @@
     </div>
     <!-- Note: change of use from PDR and Non-Res is the same we dont ask for both inputs -->
     <div>
-        <div>Fee schedule for replacement of change of use (Non res -> residential) * is this net change in nonres?</div>
+        <div>
+            Fee schedule for replacement of change of use (Non res -> residential)
+            <div class="italic">is this net change in nonres?</div>
+        </div>
         <input type="number" id="nonResToRes" placeholder="value" data-bind="value: fee.nonResToRes, valueUpdate: 'keyup'">
         *
         <!-- <span data-bind="text: parseInt(fee.netNewUnits()) < 10 ? '$0.13/gsf': '$0.26/gsf'"></span> -->
