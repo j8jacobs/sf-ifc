@@ -15,6 +15,9 @@ define([
 
         AbstractFee.apply(this, [params]);
 
+        // start exempt
+        this.exemptFromTSF = ko.observable(true)
+
         this.isCentralSoMa = ko.computed(function(){
             return !!this.intersectFeatures()?.find(x => x.attributes.name === this.feeException);
         }, this);
