@@ -67,12 +67,8 @@ define([
         }, this);
 
         this.feeCredit = ko.computed(function () {
-            // added - calcuilated fee needed this
-            // const value = parseFloat(this.newConstructionCredit()) + parseFloat(this.changeOfUseCredit())
-            // return isNaN(value) ? 0 : value;
-            // return parseFloat(this.newConstructionCredit()) + parseFloat(this.changeOfUseCredit())
-            const constructionCredit = parseFloat(this.newConstructionCredit) || 0
-            const changeOfUseCredit = parseFloat(this.changeOfUseCredit) || 0
+            const constructionCredit = parseFloat(this.newConstructionCredit()) || 0
+            const changeOfUseCredit = parseFloat(this.changeOfUseCredit()) || 0
             return constructionCredit + changeOfUseCredit
         }, this);
 
