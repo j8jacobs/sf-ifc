@@ -1,3 +1,5 @@
+// -- updates -- moving newRes -> resGFA
+
 define([
     'knockout',
     'fees/abstract-fee',
@@ -35,17 +37,13 @@ define([
             }
             return self.greaterThanOrEqualTo10[feeType];
         }
-
         this.feePerNonResToRes = ko.computed(function () {
             return getFeeRate('feePerNonResToRes');
         }, this);
-
         this.feePerPDRToRes = ko.computed(function () {
             return getFeeRate('feePerPDRToRes');
         }, this);
-
         this.feePerNewRes = ko.computed(function () {
-            console.log('-- CALLED: ', getFeeRate('feePerNewRes'))
             return getFeeRate('feePerNewRes');
         }, this);
 
@@ -53,20 +51,15 @@ define([
             if (!this.triggered()) {
                 return 0;
             }
-            var newRes = this.newRes() || 0;
-
-            return this.feePerNewRes() * newRes;
+            return this.feePerNewRes() * this.resGFA()
         }, this);
 
         this.changeOfUseFee = ko.computed(function() {
             if (!this.triggered()) {
                 return 0;
             }
-            var nonResToRes = this.nonResToRes() || 0;
-            var pdrToRes = this.pdrToRes() || 0;
-
-            return (this.feePerNonResToRes() * nonResToRes) +
-                (this.feePerPDRToRes() * pdrToRes);
+            const nonResFee = this.feePerNonResToRes() // NOTE: pdr and nonres are the same atm
+            return (this.nonResGFA() || 0) * nonResFee
         }, this);
 
         this.uncreditedFee = ko.computed(function() {
@@ -74,20 +67,39 @@ define([
         }, this);
 
         this.feeCredit = ko.computed(function () {
-            // added - calcuilated fee needed this
-            const value = parseFloat(this.newConstructionCredit()) + parseFloat(this.changeOfUseCredit())
-            return isNaN(value) ? 0 : value;
-            // return parseFloat(this.newConstructionCredit()) + parseFloat(this.changeOfUseCredit())
+            const constructionCredit = parseFloat(this.newConstructionCredit()) || 0
+            const changeOfUseCredit = parseFloat(this.changeOfUseCredit()) || 0
+            return constructionCredit + changeOfUseCredit
         }, this);
 
         this.calculatedFee = ko.computed(function() {
-            console.log('-- im in here', this.uncreditedFee(), this.feeCredit())
             var feeValue = this.uncreditedFee() - this.feeCredit();
             return feeValue > 0 ? feeValue : 0;
         }, this);
+
+        // -- added --
+        this.calculation_newRes = ko.computed(function () {
+            return `${this.resGFA() || 0}gsf * ${this.feePerNewRes()}/gsf = ${dollarFormat(this.newConstructionFee())}`
+            // return `testing`
+        }, this)
+        this.calculation_changeOfUse = ko.computed(function () {
+            return `${this.nonResGFA() || 0}gsf * ${this.feePerPDRToRes()}/gsf = ${dollarFormat(this.changeOfUseFee())}`
+        }, this)
     };
 
     CitywideChildCareResidentialFee.settings = settings;
 
     return CitywideChildCareResidentialFee;
 });
+
+function dollarFormat(value) {
+    // Ensure the value is a number
+    const number = parseFloat(value);
+    // Check if the number is valid
+    if (isNaN(number)) {
+        return "$0.00"; // Return a default value if input is invalid
+    }
+    // Round to two decimal places and format with dollar sign
+    return `$${number.toFixed(2)}`;
+}
+

@@ -153,58 +153,79 @@
 <!-- /ko -->
 
 <!-- ko if: state === 'fee-input' && fee.triggered() -->
-<div class="space-y-4">
+<div class="space-y-8 m-auto max-w-[800px] w-[80%] pb-8">
     <div>
-        <a href="https://codelibrary.amlegal.com/codes/san_francisco/latest/sf_planning/0-0-0-52953" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" target="_blank">
-            Calculation of the res child care inpact fee
-        </a>
-    </div>
-    <div>
-        <div>Net Additionas of sqft
-            <div class="italic">is this "Residential GFA Increase?"</div>
+        <div class="pb-2 pt-8">Fees</div>
+            <div class="space-y-2">
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>New Construction Fee</div>
+                <div data-bind="text: fee.calculation_newRes"></div>
+            </div>
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Change / Replacement Fee</div>
+                <div data-bind="text: fee.calculation_changeOfUse"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <div>Total Uncredited Fee</div>
+                <div data-bind="dollarsText: fee.uncreditedFee"></div>
+            </div>
         </div>
-        <input type="number" id="newRes" placeholder="value" data-bind="value: fee.newRes, valueUpdate: 'keyup'">
-        *
-        <!-- <span data-bind="text: parseInt(fee.netNewUnits()) < 10 ? '$0.13/gsf': '$0.26/gsf'"></span> -->
-         <span>
-            <span data-bind="text: fee.feePerNewRes"></span>/gsf
-         </span>
-        = 
-        <span data-bind="dollarsText: fee.newConstructionFee"></span>
     </div>
-    <!-- Note: change of use from PDR and Non-Res is the same we dont ask for both inputs -->
+
     <div>
+        <div >Approved Credits</div>
         <div>
-            Fee schedule for replacement of change of use (Non res -> residential)
-            <div class="italic">is this net change in nonres?</div>
+            <div class="flex justify-between items-center border-b py-2">
+                <div>Construction Credits</div>
+                <input 
+                    type="number" 
+                    class="line-item-input"
+                    placeholder="0"
+                    min="0" 
+                    data-bind="
+                        value: fee.newConstructionCredit,
+                        valueUpdate: 'keyup',
+                        attr: {'max': fee.newConstructionFee}
+                    "
+                >
+            </div>
+            <div class="flex justify-between items-center border-b py-2">
+                <div>Change of Use Credits</div>
+            <input type="number" class="line-item-input" placeholder="0" min="0" data-bind="value: fee.changeOfUseCredit, valueUpdate: 'keyup', attr: {'max': fee.changeOfUseFee}">
+            </div>
+            <div class="flex justify-between items-center pt-2">
+                <div>Total Approved Credits</div>
+                <div data-bind="dollarsText: fee.feeCredit"></div>
+            </div>
         </div>
-        <input type="number" id="nonResToRes" placeholder="value" data-bind="value: fee.nonResToRes, valueUpdate: 'keyup'">
-        *
-        <!-- <span data-bind="text: parseInt(fee.netNewUnits()) < 10 ? '$0.13/gsf': '$0.26/gsf'"></span> -->
-         <span>
-            <span data-bind="text: fee.feePerPDRToRes"></span>/gsf
-         </span>
-        = 
-        <span data-bind="dollarsText: fee.changeOfUseFee"></span>
+
     </div>
+
     <div>
-        Total Uncredited fee = <span data-bind="dollarsText: fee.newConstructionFee"></span> +<span data-bind="dollarsText: fee.changeOfUseFee"></span> = <span data-bind="dollarsText: fee.uncreditedFee"></span>
+        <div class="pb-2">Total</div>
+            <div class="space-y-2">
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Uncredited Fees</div>
+                <div data-bind="text: fee.uncreditedFee"></div>
+            </div>
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Approved Credits</div>
+                <div>
+                    - <span data-bind="text: fee.feeCredit"></span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center">
+                <div>Total Uncredited Fee</div>
+                <div data-bind="dollarsText: fee.calculatedFee"></div>
+            </div>
+        </div>
     </div>
-    <div>
-        <div>TODO - is this credit correct? demo example asks for it directly</div>
-        <div>
-            <label for="newConstructionCredit" class="block">New construction credit approved by Planning Dept. ($)</label>
-            <input type="number" id="newConstructionCredit" placeholder="See the Development Impact Fee Register for this credit." min="0" data-bind="value: fee.newConstructionCredit, valueUpdate: 'keyup', attr: {'max': fee.newConstructionFee}">
-        </div>
-        </div> 
-        <div>
-            <label class="block">Change of use credit approved by Planning Dept. ($)</label>
-            <input type="number" placeholder="value" min="0" data-bind="value: fee.changeOfUseCredit, valueUpdate: 'keyup', attr: {'max': fee.changeOfUseFee}">
-        </div>
-        <div>
-            Total Fee Credit = <span data-bind="dollarsText: fee.newConstructionCredit"></span> + <span data-bind="dollarsText: fee.changeOfUseCredit"></span> = <span data-bind="dollarsText: fee.feeCredit"></span>
-        </div>
+
+    <!-- 
+
+        Total Fee Credit = <span data-bind="dollarsText: fee.newConstructionCredit"></span> + <span data-bind="dollarsText: fee.changeOfUseCredit"></span> = <span data-bind="dollarsText: fee.feeCredit"></span>
     </div>
-    <div>Total Fee = Uncredited Fee - Fee Credit = = <span data-bind="dollarsText: fee.uncreditedFee"></span> - <span data-bind="dollarsText: fee.feeCredit"></span> = <span data-bind="dollarsText: fee.calculatedFee"></span></div>
+    </div>
+    <div>Total Fee = Uncredited Fee - Fee Credit = = <span data-bind="dollarsText: fee.uncreditedFee"></span> - <span data-bind="dollarsText: fee.feeCredit"></span> = <span data-bind="dollarsText: fee.calculatedFee"></span></div> -->
 </div>
 <!-- /ko -->
