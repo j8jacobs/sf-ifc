@@ -22,9 +22,14 @@
         <div class="max-w-[1136px] m-auto">
             <div class="mb-12 flex justify-between items-center">
                 <div class="text-lg font-bold">SF Calculator</div>
-                <button type="button" class="px-4 py-1 rounded-md bg-blue-400 text-white" data-bind="click: function() { window.location.href = '?'; }">
-                    Restart
-                </button>
+                <div class="space-x-2">
+                    <button type="button" class="px-4 py-1 rounded-md bg-blue-400 text-white" data-bind="click: function() { window.location.href = '?'; }">
+                        Restart
+                    </button>
+                    <button type="button" class="px-4 py-1 rounded-md bg-orange-400 text-white" data-bind="click: function() { window.location.href = 'https://sfcpc.github.io/ifc/' + window.location.search; }">
+                        View As Original
+                    </button>
+                </div>
             </div>
 
             <!-- inputs -->
