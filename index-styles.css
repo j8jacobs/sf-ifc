@@ -8,6 +8,14 @@ input {
   border-radius: 0.375rem;
 }
 
+.line-item-input {
+  padding: .25rem !important;
+  border-width: 0 !important;
+  background-color: rgba(0, 0, 0, 0.05);
+  min-width: 100px;
+  text-align: right;
+}
+
 /* Basic structure that already exists fee templates */
  /* form structure (input) */
  form input {
