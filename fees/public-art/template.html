@@ -97,3 +97,57 @@
 
 </table>
 <!-- /ko -->
+
+<!-- 
+   This section shall apply to:
+   (a)   all projects that involve construction of a new building or addition of floor area in excess of 25,000 square feet to an existing building in a C-3 District; and
+   (b)   all non-residential projects that involve construction of a new building or addition of floor area in excess of 25,000 square feet and that have submitted their first complete Development Application on or after January 1, 2013 on the following parcels:
+      (1)   all parcels in RH-DTR, TB-DTR, SB-DTR, UMU, WMUG, WMUO and SALI Districts;
+      (2)   properties that are zoned MUG, CMUO, or MUO or MUR and that are north of Division/Duboce/13th Streets; and
+      (3)   all parcels zoned C-2 except for those on Blocks 4991 (Executive Park) and 7295 (Stonestown Galleria Mall).
+      For the purposes of this Section, a "Development Application" shall mean any application for a building permit, site permit, environmental review, Preliminary Project Assessment (PPA), Conditional Use, or Variance.
+
+-->
+ <!-- ko if: state === 'fee-input' && fee.triggered() -->
+<div class="calc-container">
+    <div>
+        <div class="pb-2 pt-8">Project Details</div>
+        <div class="space-y-2">
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Total Construction Cost</div>
+                <div data-bind="dollarsText: fee.constructionCost"></div>
+            </div>
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Project Type</div>
+                <div data-bind="text: fee.nonResProject() ? 'Non-Residential' : 'Residential'"></div>
+            </div>
+            <!-- ko if: fee.nonResProject() -->
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Public Open Space</div>
+                <div>
+                    <span data-bind="numericText: fee.posRequirement"></span> GFA
+                </div>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+
+    <div>
+        <div class="pb-2">Fee Calculation</div>
+        <div class="space-y-2">
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Construction Cost</div>
+                <div data-bind="dollarsText: fee.constructionCost"></div>
+            </div>
+            <div class="flex justify-between items-center border-b pb-2">
+                <div>Fee Rate</div>
+                <div>1%</div>
+            </div>
+            <div class="flex justify-between items-center">
+                <div>Total Fee</div>
+                <div data-bind="dollarsText: fee.calculatedFee"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /ko -->

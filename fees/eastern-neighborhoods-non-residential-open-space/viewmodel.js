@@ -9,18 +9,23 @@ define([
 
         AbstractFee.apply(this, [params]);
 
+        console.log(this.geometry(), this.areaLayer, this.areaGeoms())
+
         this.isCentralSoMa = ko.computed(function(){
+            console.log('-isCentralSoMa: ', this.intersectFeatures())
             return !!this.intersectFeatures()?.find(x => x.attributes.name === this.feeException);
         }, this);
 
         this.triggered = ko.computed(function() {
-            return this.isProjectInArea() &&
-                (
-                    this.newNonRes() > 0 ||
-                    this.newNonRes()/this.existingNonResGFA() >= .2 ||
-                    this.nonResGFA()/this.existingNonResGFA() >= .2 ||
-                    this.officeGFA()/this.existingNonResGFA() >= .2
-                );
+            // return this.isProjectInArea() &&
+            //     (
+            //         this.newNonRes() > 0 ||
+            //         this.newNonRes()/this.existingNonResGFA() >= .2 ||
+            //         this.nonResGFA()/this.existingNonResGFA() >= .2 ||
+            //         this.officeGFA()/this.existingNonResGFA() >= .2
+            //     );
+            // return this.isProjectInArea()
+            return this.isProjectInArea() && ((parseFloat(this.nonResGFA()) || 0) > 0)
         }, this);
 
         this.ready = ko.computed(function() {
