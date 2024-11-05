@@ -1,3 +1,9 @@
+// updates
+// app.js I've adjusted totalUnits to ignore the unused values to ensure value is coming back !NaN
+
+// questions
+// nonResTierOne fees may not apply anymore
+
 define([
     'knockout',
     'fees/abstract-fee',
@@ -18,7 +24,7 @@ define([
                 this.resGFA() >= this.minResGFA ||
                 this.nonResGFA() >= this.minNonResGFA ||
                 this.pdrGFA() >= this.minPDRGFA ||
-                this.changeOfUse() > this.minChangeOfUse;
+                this.changeOfUse() > this.minChangeOfUse
         }, this);
 
         this.ready = ko.computed(function() {
@@ -71,6 +77,14 @@ define([
             return applicableHealth > 0 ? applicableHealth : 0;
         }, this);
 
+        // -- added --
+        this.applicableResTierFee = ko.computed(function() {
+            return this.totalUnits() <= this.minTier1Units ? this.resTier1Fee : this.resTier2Fee
+        }, this)
+        this.totalApplicableResTierFee = ko.computed(function () {
+            return parseFloat(this.resGFA()) * this.applicableResTierFee()
+        }, this)
+
         this.calculatedFee = ko.computed(function() {
             if (this.exemptFromTSF()) {
                 return 0;
@@ -81,13 +95,17 @@ define([
             } else {
                 nonResTier2Fee = this.nonResTier2Fee;
             }
-            return (this.applicableResTier1() * this.resTier1Fee) +
-                (this.applicableResTier2() * this.resTier2Fee) +
-                (this.applicableNonResTier1() * this.nonResTier1Fee) +
-                (this.applicableNonResTier2() * nonResTier2Fee) +
-                (this.applicableHospital() * this.hospitalFee) +
-                (this.applicableHealth() * this.healthFee) +
-                (this.pdrGFA() * this.pdrFee);
+            // return (this.applicableResTier1() * this.resTier1Fee) +
+            //     (this.applicableResTier2() * this.resTier2Fee) +
+            //     (this.applicableNonResTier1() * this.nonResTier1Fee) +
+            //     (this.applicableNonResTier2() * nonResTier2Fee) +
+            //     (this.applicableHospital() * this.hospitalFee) +
+            //     (this.applicableHealth() * this.healthFee) +
+            //     (this.pdrGFA() * this.pdrFee)
+            // -- testing -- only returning relevant values; readjusting as well
+            return (
+                (this.totalApplicableResTierFee)
+            )
         }, this);
     };
 

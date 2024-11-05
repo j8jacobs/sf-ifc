@@ -54,6 +54,7 @@ define([
         this.triggeredFeeViewModels.subscribe(function() {
             var feeViewModels = self.triggeredFeeViewModels();
             self.selectedFee(feeViewModels.length > 0 ? feeViewModels[0] : null);
+            console.log('--- ', feeViewModels)
         });
 
         this.paramNames = [
@@ -85,11 +86,14 @@ define([
             return newUnits - removedUnits;
         }, this);
 
+        // -- updated -- 
         this.totalUnits = ko.computed(function() {
-            return (
-                parseFloat(this.newUnits()) +
-                parseFloat(this.existingUnits())
-            ) - parseFloat(this.removedUnits());
+            // return (
+            //     parseFloat(this.newUnits()) +
+            //     parseFloat(this.existingUnits())
+            // ) - parseFloat(this.removedUnits());
+            // removing unused values
+            return (parseFloat(this.newUnits()))
         }, this);
 
         this.dwellingsReady = ko.computed(function() {
@@ -246,7 +250,6 @@ define([
         };
 
         this.geocode = function() {
-            console.log('--- geocode string: ', )
             if (self.geocodeLoading()) {
                 return;
             }
@@ -300,11 +303,6 @@ define([
         };
         
         this.queryString = ko.computed(function() {
-            console.log('lnlnln HELLOW?!')
-            console.log('--- RUNNING QUERY STRING -- TESTING')
-            console.log('---- HEY LOOK HERE')
-            console.log(this.triggeredFeeViewModels())
-
             var feeViewModelJSON = {};
             _.each(this.feeViewModels(), function(feeViewModel) {
                 var feeJSON = feeViewModel.json();
@@ -318,7 +316,6 @@ define([
                 fees: JSON.stringify(feeViewModelJSON),
                 inputAddress: extractInputAddress(this.geometry())
             };
-            console.log('App json: ', appJSON)
             this.paramNames.forEach(function(name) {
                 appJSON[name] = ko.unwrap(self[name]);
             });
@@ -331,7 +328,14 @@ define([
         }, this);
 
         this.copyModBtn = window.navigator.platform === 'MacIntel' ? 'Cmd' : 'Ctrl';
-    };
+
+        this.displayedFees = ko.computed(function() {
+            // TODO may need to be more explicitely with the nullish type
+            // TODO only filter for this.geometry if there are values that come back
+            const isEmptyInput = !this.newUnits() && !this.nonResGFA() && !this.resGFA()
+            return isEmptyInput ? this.feeViewModels() : this.triggeredFeeViewModels()
+        }, this);
+    }
 
     return App;
 });

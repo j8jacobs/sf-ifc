@@ -169,3 +169,50 @@
 <h4>This project is exempt from the TSF</h4>
 <!-- /ko -->
 <!-- /ko -->
+
+<!-- ko if: state === 'fee-input' && fee.triggered() -->
+<div class="space-y-4">
+    <div>
+        <a href="https://codelibrary.amlegal.com/codes/san_francisco/latest/sf_planning/0-0-0-52333" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" target="_blank">
+            Calculation of the res child care inpact fee
+        </a>
+    </div>
+    <div>
+        <label>
+            <input type="checkbox" id="exemptFromTSF" data-bind="checked: fee.exemptFromTSF, checkedUpdate: 'keyup'">
+            This is exempt from TSF
+        </label>
+    </div>
+    <!-- ko if: !fee.exemptFromTSF() -->
+    <hr />
+    <div>
+        <div>Net Additions</div>
+            <span data-bind="dollarsText: fee.resGFA"></span>/gsf
+        *
+        <span>
+            <span data-bind="dollarsText: fee.applicableResTierFee"></span>/gsf
+        </span>
+        = <span data-bind="dollarsText: fee.totalApplicableResTierFee"></span>/gsf
+    </div>
+    <div>TODO: Non-Residential, except Hospitals and Health Services, 800-99,999 gsf</div>
+    <div>TODO: Non-Residential, except Hospitals and Health Services, all gsf above 99,999 gsf, in all areas of the City except the Central South of Market Area Plan</div>
+    <div>TODO: Non-Residential, except Hospitals and Health Services, all gsf above 99,999 gsf, in the Central South of Market Area Plan</div>
+    <div>TODO: Hospitals</div>
+    <div>TODO: Health Services, all gsf above 12,000 gsf</div>
+    <div>TODO: Production, Distribution and Repair</div>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+
+<!-- 
+<div>Net Additionas of sqft
+    <div class="italic">is this "Residential GFA Increase?"</div>
+</div>
+<input type="number" id="newRes" placeholder="value" data-bind="value: fee.newRes, valueUpdate: 'keyup'">
+*
+ <span>
+    <span data-bind="text: fee.feePerNewRes"></span>/gsf
+ </span>
+= 
+<span data-bind="dollarsText: fee.newConstructionFee"></span> 
+-->

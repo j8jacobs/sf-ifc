@@ -45,6 +45,7 @@ define([
         }, this);
 
         this.feePerNewRes = ko.computed(function () {
+            console.log('-- CALLED: ', getFeeRate('feePerNewRes'))
             return getFeeRate('feePerNewRes');
         }, this);
 
@@ -73,10 +74,14 @@ define([
         }, this);
 
         this.feeCredit = ko.computed(function () {
-            return parseFloat(this.newConstructionCredit()) + parseFloat(this.changeOfUseCredit());
+            // added - calcuilated fee needed this
+            const value = parseFloat(this.newConstructionCredit()) + parseFloat(this.changeOfUseCredit())
+            return isNaN(value) ? 0 : value;
+            // return parseFloat(this.newConstructionCredit()) + parseFloat(this.changeOfUseCredit())
         }, this);
 
         this.calculatedFee = ko.computed(function() {
+            console.log('-- im in here', this.uncreditedFee(), this.feeCredit())
             var feeValue = this.uncreditedFee() - this.feeCredit();
             return feeValue > 0 ? feeValue : 0;
         }, this);

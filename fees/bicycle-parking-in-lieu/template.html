@@ -39,3 +39,16 @@
     </table>
 </div>
 <!-- /ko -->
+
+<!-- ko if: state === 'fee-input' && fee.triggered() -->
+<div>
+    <input 
+        id="spacesInLieu" 
+        type="number" 
+        placeholder="value" 
+        min="0" 
+        data-bind="value: fee.spacesInLieu, valueUpdate: 'keyup', attr: { 'max': fee.maxInLieu }"
+    >
+    spaces * <span data-bind="dollarsText: fee.inLieuFee"></span> / space = <span data-bind="dollarsText: fee.calculatedFee"></span>
+</div>
+<!-- /ko -->
