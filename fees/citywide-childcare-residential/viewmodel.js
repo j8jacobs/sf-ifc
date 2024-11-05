@@ -45,6 +45,7 @@ define([
         }, this);
 
         this.feePerNewRes = ko.computed(function () {
+            console.log('-- CALLED: ', getFeeRate('feePerNewRes'))
             return getFeeRate('feePerNewRes');
         }, this);
 

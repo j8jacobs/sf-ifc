@@ -162,19 +162,44 @@
     <div>
         <div>Net Additionas of sqft</div>
         <input type="number" id="newRes" placeholder="value" data-bind="value: fee.newRes, valueUpdate: 'keyup'">
-        * 
-        <span data-bind="text: parseInt(fee.netNewUnits()) < 10 ? '$0.91/gsf': '$1.83/gsf'"></span>
+        *
+        <!-- <span data-bind="text: parseInt(fee.netNewUnits()) < 10 ? '$0.13/gsf': '$0.26/gsf'"></span> -->
+         <span>
+            <span data-bind="text: fee.feePerNewRes"></span>/gsf
+         </span>
         = 
-        <span data-bind="dollarsText: fee.calculatedFee"></span>
+        <span data-bind="dollarsText: fee.newConstructionFee"></span>
     </div>
+    <!-- Note: change of use from PDR and Non-Res is the same we dont ask for both inputs -->
     <div>
         <div>Fee schedule for replacement of change of use (Non res -> residential) * is this net change in nonres?</div>
         <input type="number" id="nonResToRes" placeholder="value" data-bind="value: fee.nonResToRes, valueUpdate: 'keyup'">
         *
-        <span data-bind="text: parseInt(fee.netNewUnits()) < 10 ? '$0.13/gsf': '$0.26/gsf'"></span>
+        <!-- <span data-bind="text: parseInt(fee.netNewUnits()) < 10 ? '$0.13/gsf': '$0.26/gsf'"></span> -->
+         <span>
+            <span data-bind="text: fee.feePerPDRToRes"></span>/gsf
+         </span>
         = 
-        <span data-bind="dollarsText: fee.calculatedFee"></span>
+        <span data-bind="dollarsText: fee.changeOfUseFee"></span>
     </div>
-    <div>TODO - credit</div>
+    <div>
+        Total Uncredited fee = <span data-bind="dollarsText: fee.newConstructionFee"></span> +<span data-bind="dollarsText: fee.changeOfUseFee"></span> = <span data-bind="dollarsText: fee.uncreditedFee"></span>
+    </div>
+    <div>
+        <div>TODO - is this credit correct? demo example asks for it directly</div>
+        <div>
+            <label for="newConstructionCredit" class="block">New construction credit approved by Planning Dept. ($)</label>
+            <input type="number" id="newConstructionCredit" placeholder="See the Development Impact Fee Register for this credit." min="0" data-bind="value: fee.newConstructionCredit, valueUpdate: 'keyup', attr: {'max': fee.newConstructionFee}">
+        </div>
+        </div> 
+        <div>
+            <label class="block">Change of use credit approved by Planning Dept. ($)</label>
+            <input type="number" placeholder="value" min="0" data-bind="value: fee.changeOfUseCredit, valueUpdate: 'keyup', attr: {'max': fee.changeOfUseFee}">
+        </div>
+        <div>
+            Total Fee Credit = <span data-bind="dollarsText: fee.newConstructionCredit"></span> + <span data-bind="dollarsText: fee.changeOfUseCredit"></span> = <span data-bind="dollarsText: fee.feeCredit"></span>
+        </div>
+    </div>
+    <div>Total Fee = Uncredited Fee - Fee Credit = = <span data-bind="dollarsText: fee.uncreditedFee"></span> - <span data-bind="dollarsText: fee.feeCredit"></span> = <span data-bind="dollarsText: fee.calculatedFee"></span></div>
 </div>
 <!-- /ko -->
