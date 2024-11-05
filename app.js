@@ -54,6 +54,7 @@ define([
         this.triggeredFeeViewModels.subscribe(function() {
             var feeViewModels = self.triggeredFeeViewModels();
             self.selectedFee(feeViewModels.length > 0 ? feeViewModels[0] : null);
+            console.log('--- ', feeViewModels)
         });
 
         this.paramNames = [

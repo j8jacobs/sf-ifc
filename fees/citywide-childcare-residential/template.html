@@ -151,3 +151,30 @@
     </tbody>
 </table>
 <!-- /ko -->
+
+<!-- ko if: state === 'fee-input' && fee.triggered() -->
+<div>
+    <div>
+        <a href="https://codelibrary.amlegal.com/codes/san_francisco/latest/sf_planning/0-0-0-52953" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">
+            Calculation of the res child care inpact fee
+        </a>
+    </div>
+    <div>
+        <div>Net Additionas of sqft</div>
+        <input type="number" id="newRes" placeholder="value" data-bind="value: fee.newRes, valueUpdate: 'keyup'">
+        * 
+        <span data-bind="text: parseInt(fee.netNewUnits()) < 10 ? '$0.91/gsf': '$1.83/gsf'"></span>
+        = 
+        <span data-bind="dollarsText: fee.calculatedFee"></span>
+    </div>
+    <div>
+        <div>Fee schedule for replacement of change of use (Non res -> residential) * is this net change in nonres?</div>
+        <input type="number" id="nonResToRes" placeholder="value" data-bind="value: fee.nonResToRes, valueUpdate: 'keyup'">
+        *
+        <span data-bind="text: parseInt(fee.netNewUnits()) < 10 ? '$0.13/gsf': '$0.26/gsf'"></span>
+        = 
+        <span data-bind="dollarsText: fee.calculatedFee"></span>
+    </div>
+    <div>TODO - credit</div>
+</div>
+<!-- /ko -->
