@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="styles/print.css" />
     <link rel="stylesheet" href="styles/style.css" />
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
     <script>
       // setup to track the different inputs
       var loc;
@@ -65,6 +67,93 @@
           },
         ],
       };
+
+      class FeeCard {
+        constructor(feeData) {
+          this.data = feeData;
+          this.state = {
+            inputs: Array(feeData.inputs.length).fill(0),
+            totalFee: 0,
+          };
+          this.element = this.createCard();
+          this.setupEventListeners();
+        }
+
+        createCard() {
+          // Clone the template using jQuery
+          const $template = $("#fee-card-template").contents().clone();
+
+          // Fill in the basic info using jQuery
+          $template.find(".fee-title").text(this.data.label);
+          $template.find(".fee-section").text(this.data.section.name);
+          $template
+            .find(".fee-section-link")
+            .attr("href", this.data.section.link);
+          $template.find(".fee-summary-label").text(this.data.label);
+          $template
+            .find(".fee-summary-amount")
+            .text(this.data.calculations[0].amount);
+
+          // Add inputs
+          const $inputsContainer = $template.find(".card-inputs");
+          this.data.inputs.forEach((input) => {
+            const $inputElement = $("#fee-input-template").contents().clone();
+
+            $inputElement.find("label").text(input.label);
+            $inputElement.find(".input-units").text(input.units);
+
+            $inputsContainer.append($inputElement);
+          });
+
+          return $template;
+        }
+
+        setupEventListeners() {
+          // jQuery event handling
+          this.element.find("input").on("input", (e) => {
+            const $input = $(e.target);
+            const index = this.element.find("input").index($input);
+
+            const newInputs = [...this.state.inputs];
+            newInputs[index] = parseFloat($input.val()) || 0;
+            this.setState({ inputs: newInputs });
+          });
+        }
+
+        setState(newState) {
+          this.state = { ...this.state, ...newState };
+          this.updateView();
+        }
+
+        calculateFee() {
+          // Example calculation - modify based on your needs
+          return this.state.inputs.reduce((sum, val) => sum + val, 0) * 649.58;
+        }
+
+        updateView() {
+          const fee = this.calculateFee();
+          this.element.find(".fee-amount").text(`$ ${fee.toFixed(2)}`);
+          this.element.find(".fee-summary-amount").text(`$ ${fee.toFixed(2)}`);
+        }
+
+        mount($container) {
+          $container.append(this.element);
+        }
+      }
+
+      // Wait for DOM to be ready using jQuery
+      $(document).ready(() => {
+        // Clear existing example cards
+        $(".fees-ctr").empty();
+
+        // Create and mount fee cards
+        console.log("-- here");
+        const bikeCard = new FeeCard(example_bikeFee);
+        const openSpaceCard = new FeeCard(openSpaceFee);
+
+        bikeCard.mount($(".fees-ctr"));
+        openSpaceCard.mount($(".fees-ctr"));
+      });
     </script>
   </head>
 
@@ -121,73 +210,47 @@
         </div>
       </div>
 
-      <div class="fees-ctr">
-        <!-- Example card (simple) -->
-        <div class="fee-row">
-          <div class="card">
-            <div class="card-header">
-              <h4>Bicycle Parking In-Lieu Fee (<a href="#">Sec. 422</a>)</h4>
-            </div>
-            <div class="card-inputs">
-              <div>
-                <label>Class 2 bicycle parking spots</label>
-                <div class="input-ctr">
-                  <input placeholder="0" type="number" />
-                  <span>parking spots</span>
-                </div>
-              </div>
-            </div>
-            <div class="card-fee">
-              <h6>Fee</h6>
-              <p>$ 123.00</p>
-              <div class="card-calculations">Calculations</div>
-            </div>
+      <div class="fees-ctr"></div>
+    </div>
+
+    <!-- Add templates at the start of body -->
+    <template id="fee-card-template">
+      <div class="fee-row">
+        <div class="card">
+          <div class="card-header">
+            <h4>
+              <span class="fee-title"></span> (<a
+                href="#"
+                class="fee-section-link"
+                >Sec. <span class="fee-section"></span></a
+              >)
+            </h4>
           </div>
-          <div class="fee-row-summary">
-            <div>Bicycle parking in-lieu fee</div>
-            <div>$ 649.58</div>
+          <div class="card-inputs"></div>
+          <div class="card-fee">
+            <h6>Fee</h6>
+            <p class="fee-amount">$ 0.00</p>
+            <div class="card-calculations">
+              <button class="show-calculations">Show Calculations</button>
+              <div class="calculations-detail" style="display: none"></div>
+            </div>
           </div>
         </div>
-
-        <!-- Example card (2 inputs) -->
-        <div class="fee-row">
-          <div class="card">
-            <div class="card-header">
-              <h4>
-                Open Space Fee in EN Mixed-Use and C-3-0 (SD) Districts (<a
-                  href="#"
-                  >Sec. 426</a
-                >)
-              </h4>
-            </div>
-            <div class="card-inputs">
-              <div>
-                <label>Required open space</label>
-                <div class="input-ctr">
-                  <input placeholder="0" type="number" />
-                  <span>sqft</span>
-                </div>
-              </div>
-              <div>
-                <label>Provided open space</label>
-                <div class="input-ctr">
-                  <input placeholder="0" type="number" />
-                  <span>sqft</span>
-                </div>
-              </div>
-            </div>
-            <div class="card-fee">
-              <h6>Fee</h6>
-              <p>$ 123.00</p>
-              <div class="card-calculations">Calculations</div>
-            </div>
-          </div>
-          <div class="fee-row-summary">
-            <div>Bicycle parking in-lieu fee</div>
-            <div>$ 649.58</div>
-          </div>
+        <div class="fee-row-summary">
+          <div class="fee-summary-label"></div>
+          <div class="fee-summary-amount">$ 0.00</div>
         </div>
       </div>
-    </div>
+    </template>
+
+    <template id="fee-input-template">
+      <div class="input-group">
+        <label></label>
+        <div class="input-ctr">
+          <input placeholder="0" type="number" min="0" />
+          <span class="input-units"></span>
+        </div>
+      </div>
+    </template>
   </body>
 </html>

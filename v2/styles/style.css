@@ -1,14 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 html,
 body {
   height: 100%;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 body {
-  overflow: hidden;
-  color:  #212121;
+  /* overflow: hidden; */
+  overflow-y: scroll;
+  color: #212121;
 }
 
 a {
@@ -79,7 +80,7 @@ h6 {
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--grey-60); 
+  color: var(--grey-60);
 }
 
 .ctr {
@@ -91,7 +92,7 @@ h6 {
 
 .fee-row {
   display: grid;
-  grid-template-columns: 1fr 200px;
+  grid-template-columns: 1fr 250px;
   gap: 16px;
 }
 
@@ -135,4 +136,3 @@ h6 {
   margin-top: 12px;
   padding-top: 12px;
 }
-
