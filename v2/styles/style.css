@@ -45,6 +45,17 @@ input {
   margin: auto;
 }
 
+.fee-row {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 16px;
+}
+
+.fee-row-summary {
+  padding-top: 12px;
+  color: var(--grey-70);
+}
+
 .card {
   border-radius: 8px;
   border: solid 1px var(--grey-10);
