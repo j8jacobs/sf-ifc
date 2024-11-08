@@ -6,15 +6,60 @@
   <title>SF Planning Impact Fee Calculator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/teal.css">
+  <link rel="stylesheet" href="styles/colors.css">
   <link rel="stylesheet" href="styles/print.css">
   <link rel="stylesheet" href="styles/style.css">
+
+  
+  <script>
+    // setup to track the different inputs
+    var loc
+    var units_proposed, units_existing, units_net
+    var resGSF_proposed, resGSF_existing, units_net
+    var nonResGSF_proposed, nonResGSF_existing, nonResGSF_net
+
+    var fees_all
+    var fees_applicable, fees_nonApplicable
+
+    var example_bikeFee = {
+      label: 'Bicycle Parking In-Lieu Fee',
+      section: { name: '430', link: '#' },
+      inputs: [{
+        label: 'Class 2 bicycle parking spots',
+        units: 'parking spots'
+      }],
+      // right hand calculations for now
+      // we may need a different serialization for the computations
+      calculations: [{
+        label: 'Bicycle Parking In-Lieu Fee',
+        amount: '$ 649.58'
+      }]
+    }
+  </script>
 </head>
 
 <body>
   <div class="ctr">
+
+    <!-- Example card -->
     <div class="card">
-      <h4>Bicycle Parking In-Lieu Fee (<a href="#">Sec. 422</a>)</h4>
+      <div class="card-header">
+        <h4>Bicycle Parking In-Lieu Fee (<a href="#">Sec. 422</a>)</h4>
+      </div>
+      <div class="card-inputs">
+        <label>Class 2 bicycle parking spots</label>
+        <div class="input-ctr">
+          <input placeholder="0" type="number">
+          <span>parking spots</span>
+        </div>
+      </div>
+      <div class="card-fee">
+        <h6>Fee</h6>
+        <p>$ 123.00</p>
+        <div class="card-calculations">
+          Calculations
+        </div>
+      </div>
     </div>
   </div>
 </body>

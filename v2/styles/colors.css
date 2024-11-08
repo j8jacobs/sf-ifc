@@ -35,6 +35,13 @@ Palette generated as `Accent: #0B5F74` from https://www.radix-ui.com/colors/cust
   --teal-surface: #eff8facc;
   --teal-indicator: #0b5f74;
   --teal-track: #0b5f74;
+
+  /* Greys */
+  /* TODO - turn this into grey-1-2-3 / simpler scale */
+  --grey-10: #E6E6E6;
+  --grey-25: #CECECE;
+  --grey-60: #848484;
+  --grey-70: #6B6B6B;
 }
 
 @supports (color: color(display-p3 1 1 1)) {

@@ -15,16 +15,60 @@ a {
   color: var(--teal-8);
 }
 
+input {
+  padding: 6px 12px;
+  border: 1px solid var(--grey-25);
+  border-radius: 6px;
+}
+
+.input-ctr {
+  position: relative;
+  max-width: 300px;
+}
+
+.input-ctr input {
+  width: 100%;
+}
+
+.input-ctr span {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-60); 
+}
+
 .ctr {
   width: 100%;
   max-width: 1200px;
-  padding: 0 24px;
+  padding: 24px;
   margin: auto;
 }
 
 .card {
   border-radius: 8px;
-  border: solid 1px #E6E6E6;
+  border: solid 1px var(--grey-10);
   width: 100%;
   padding: 24px;
 }
+
+/* space */
+.card > *:not(:last-child) {
+  margin-bottom: 32px;
+}
+
+.card-fee h6 {
+  font-size: 16px;
+}
+
+.card-fee p {
+  font-size: 20px;
+}
+
+.card-calculations {
+  width: 100%;
+  border-top: solid 1px var(--grey-10);
+  margin-top: 12px;
+  padding-top: 12px;
+}
+

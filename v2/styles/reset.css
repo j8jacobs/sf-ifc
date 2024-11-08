@@ -62,3 +62,26 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+/* 
+  Personal - adjust location of the number input arrows
+  Idea - it looks like shit
+  Need more padding to fit it in
+  -----
+.input-ctr input[type="number"]::-webkit-inner-spin-button,
+.input-ctr input[type="number"]::-webkit-outer-spin-button {
+  opacity: 0;
+  position: absolute;
+  margin: 0;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 12px;
+}
+.input-ctr input[type="number"]:hover::-webkit-inner-spin-button,
+.input-ctr input[type="number"]:hover::-webkit-outer-spin-button,
+.input-ctr input[type="number"]:focus::-webkit-inner-spin-button,
+.input-ctr input[type="number"]:focus::-webkit-outer-spin-button {
+  opacity: 1;
+}
+  */
