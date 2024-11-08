@@ -61,6 +61,10 @@ h6 {
   align-items: center;
 }
 
+.fees-ctr > *:not(:last-child) {
+  margin-bottom: 28px;
+}
+
 .input-ctr {
   position: relative;
   max-width: 300px;
@@ -106,6 +110,15 @@ h6 {
 /* space */
 .card > *:not(:last-child) {
   margin-bottom: 32px;
+}
+
+.card-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.card-inputs .input-ctr {
+  max-width: 100%;
 }
 
 .card-fee h6 {
