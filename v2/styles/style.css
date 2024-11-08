@@ -21,6 +21,46 @@ input {
   border-radius: 6px;
 }
 
+h1 {
+  font-size: 24px;
+}
+h2 {
+  font-size: 20px;
+}
+h4 {
+  font-size: 18px;
+}
+h6 {
+  font-size: 16px;
+}
+
+.subheader-text {
+  color: var(--grey-60);
+}
+
+.base-inputs-ctr {
+  margin: 32px 0;
+  padding-bottom: 32px;
+  border-bottom: solid 1px var(--grey-10);
+}
+
+.base-inputs-body {
+  margin-top: 32px;
+}
+
+.base-inputs-body > *:not(:last-child) {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.base-inputs-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
 .input-ctr {
   position: relative;
   max-width: 300px;
