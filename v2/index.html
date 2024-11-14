@@ -17,6 +17,14 @@
       crossorigin="anonymous"
     ></script>
 
+    <!-- Add Turf.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+
+    <!-- for converting arcgis to geojson; may not need to import just for one function though -->
+    <script src="https://unpkg.com/@terraformer/arcgis"></script>
+
+    <script src="v2.js"></script>
+
     <script>
       // setup to track the different inputs
       var loc;
@@ -108,6 +116,47 @@
         $("input").on("input", function () {
           $("#total").text(calculateTotal().formatted);
         });
+
+        // TESTING: geometry
+        (async function getLocation() {
+          // First API call to get blklot
+          // const addressRes = await fetch(
+          //   "http://sfplanninggis.org/cpc_geocode/?search=555%20bryant%20st"
+          // ).then((d) => d.json());
+          // // Extract blklot from the response
+          // const blklot = addressRes.features[0].attributes.blklot;
+          // console.log("Block/Lot:", blklot);
+          // // Second API call to get area/district information using blklot
+          // const districtRes = await fetch(
+          //   `https://sfplanninggis.org/cpc_district_map/?blklot=${blklot}`
+          // ).then((d) => d.json());
+          // // Extract area names from the district response
+          // const areaNames = districtRes.features.map(
+          //   (feature) => feature.attributes.AREA_NAME
+          // );
+          // console.log("Area Names:", areaNames);
+          // Use areaNames to determine applicable fees
+          // const presets = {
+          //   where: fieldName + "='" + areaName + "'",
+          //   geometryType: "esriGeometryEnvelope",
+          //   spatialRel: "esriSpatialRelIntersects",
+          //   returnGeometry: true,
+          //   returnIdsOnly: false,
+          //   returnCountOnly: false,
+          //   returnZ: false,
+          //   returnM: false,
+          //   returnDistinctValues: false,
+          //   returnTrueCurves: false,
+          //   outSR: 102100,
+          //   f: "json",
+          // };
+          // this returns the fee geometry
+          // ex: set f = html so you can see the form
+          // const queryRes = await fetch(
+          //   "http://sfplanninggis.org/arcgiswa/rest/services/ImpactFees/MapServer/0/query?where=FEE%3D%27Market%20and%20Octavia%20Inclusionary%20Affordable%20Housing%20Fee%27&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects&returnGeometry=true&returnIdsOnly=false&returnCountOnly=false&returnZ=false&returnM=false&returnDistinctValues=false&returnTrueCurves=false&outSR=102100&f=json"
+          // ).then((d) => d.json());
+          // console.log("--- queryRes = ", queryRes);
+        })();
       });
     </script>
   </head>
