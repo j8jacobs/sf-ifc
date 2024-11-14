@@ -7,8 +7,8 @@ body {
 }
 
 body {
-  overflow: hidden;
   color: #212121;
+  overflow-y: scroll;
 }
 
 a {

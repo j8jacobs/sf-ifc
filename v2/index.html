@@ -47,7 +47,7 @@
           },
         ],
         calculate: () => {
-          const spaces = parseInt($("#bikeSpaces").val() || "0");
+          const spaces = parseInt($("#bike-spaces").val() || "0");
           return spaces * 649.58;
         },
       };
@@ -88,7 +88,7 @@
         },
       };
 
-      const calculateTotal = () => {
+      function calculateTotal() {
         const applicableFees = [example_bikeFee, openSpaceFee];
         const value = applicableFees.reduce((calculatedTotal, currFee) => {
           return currFee.calculate() + calculatedTotal;
@@ -100,13 +100,12 @@
             maximumFractionDigits: 2,
           })}`,
         };
-      };
+      }
 
       // run the total on init and whenever any input changes
       $(document).ready(function () {
         $("#total").text(calculateTotal().formatted);
         $("input").on("input", function () {
-          console.log("--0- runn it!", calculateTotal());
           $("#total").text(calculateTotal().formatted);
         });
       });
