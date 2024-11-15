@@ -5,10 +5,31 @@ const geojsonFormat = new ol.format.GeoJSON();
 // these official fee names can be queried here to return bounding locations for intersection
 // todo - where can we get a list of these fee names? particularily the obscure ones
 const FEE_LIST = [
-  // "Balboa Park Community Infrastructure Impact Fee",
-  // "Eastern Neighborhoods Infrastructure Impact Fee",
-  // "Central SoMa Community Services Facilities Fee - Tier B",
+  "Balboa Park Community Infrastructure Impact Fee",
+  "Central SoMa Fees - Tier A",
+  "Central SoMa Fees - Tier B",
+  "Central SoMa Fees - Tier C",
+  "Eastern Neighborhoods Infrastructure Impact Fee - Tier 1 for 45 and 55 feet. Tier 2 for 65 feet.",
+  "Eastern Neighborhoods Infrastructure Impact Fee - Tier 1 for 45 feet. Tier 2 for 65 feet.",
+  "Eastern Neighborhoods Infrastructure Impact Fee - Tier 3",
   "Eastern Neighborhoods Infrastructure Impact Fee - Tier 1 if residential, 2 if non-residential",
+  "Eastern Neighborhoods Infrastructure Impact Fee - Tier 2",
+  "Eastern Neighborhoods Infrastructure Impact Fee - Tier 1",
+  "Eastern Neighborhoods Infrastructure Impact Fee - Tier 1 for 65 feet. Tier 2 for 85 feet.",
+  "Eastern Neighborhoods Infrastructure Impact Fee - Tier 1 if residential, 3 if non-residential",
+  "Eastern Neighborhoods Infrastructure Impact Fee",
+  "Market and Octavia Community Infrastructure Impact Fee",
+  "Rincon Hill Community Infrastructure Impact Fee",
+  "South of Market Area Community Stabilization Fee",
+  "Transit Center Open Space Fee",
+  "Transit Center Transportation and Street Improvement Fee",
+  "Van Ness and Market Inclusionary Affordable Housing Fee",
+  "Visitacion Valley Community Facilities and Infrastructure Impact Fee",
+  "Downtown Park Fee",
+  "Market and Octavia Inclusionary Affordable Housing Fee",
+  "UMU District Affordable Housing Fee - Tier A",
+  "UMU District Affordable Housing Fee - Tier B",
+  "UMU District Affordable Housing Fee - Tier C",
 ];
 
 /**
@@ -78,8 +99,17 @@ async function getFeeGeo(feeName) {
   return featureCollection;
 }
 
+async function loadFeeGeos() {
+  return Promise.all(FEE_LIST.map(getFeeGeo));
+}
+
 $(document).ready(async function () {
-  // example
+  console.log(await loadFeeGeos());
+});
+
+/*
+$(document).ready(async function () {
+  // initial example
   // const addr = "555 Bryant St";
   const addr = "3776094"; // balboa? i forget where this one is
   const fee = FEE_LIST[0];
@@ -103,3 +133,4 @@ $(document).ready(async function () {
 
   console.log("Intersecting fee areas:", intersections);
 });
+*/
