@@ -1,6 +1,9 @@
 const esrijsonFormat = new ol.format.EsriJSON();
 const geojsonFormat = new ol.format.GeoJSON();
 
+// https://sfplanninggis.org/arcgiswa/rest/services/ImpactFees/MapServer/0/query
+// these official fee names can be queried here to return bounding locations for intersection
+// todo - where can we get a list of these fee names? particularily the obscure ones
 const FEE_LIST = [
   // "Balboa Park Community Infrastructure Impact Fee",
   // "Eastern Neighborhoods Infrastructure Impact Fee",
