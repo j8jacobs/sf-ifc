@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <title>SF Planning Impact Fee Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/colors.css" />
+    <link rel="stylesheet" href="styles/print.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+
+    <!-- Add jQuery CDN -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Add Turf.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+
+    <!-- for converting arcgis to geojson; may not need to import just for one function though -->
+    <script src="https://unpkg.com/@terraformer/arcgis"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/ol@v8.2.0/dist/ol.js"></script>
+
+    <script src="v2.js"></script>
+
+    <script>
+      // setup to track the different inputs
+      var loc;
+      var units_proposed, units_existing, units_net;
+      var resGSF_proposed, resGSF_existing, units_net;
+      var nonResGSF_proposed, nonResGSF_existing, nonResGSF_net;
+
+      var total;
+
+      var fees_all;
+      var fees_applicable, fees_nonApplicable;
+
+      var example_bikeFee = {
+        label: "Bicycle Parking In-Lieu Fee",
+        section: { name: "430", link: "#" },
+        inputs: [
+          {
+            label: "Class 2 bicycle parking spots",
+            units: "parking spots",
+          },
+        ],
+        // right hand calculations for now
+        // we may need a different serialization for the computations
+        calculations: [
+          {
+            label: "Bicycle Parking In-Lieu Fee",
+            amount: "$ 649.58",
+          },
+        ],
+        calculate: () => {
+          const spaces = parseInt($("#bike-spaces").val() || "0");
+          return spaces * 649.58;
+        },
+      };
+
+      var openSpaceFee = {
+        label: "Open Space Fee in EN Mixed-Use and C-3-0 (SD) Districts",
+        section: { name: "426", link: "#" },
+        inputs: [
+          {
+            label: "Required open space",
+            units: "sqft",
+          },
+          {
+            label: "Provided open space",
+            units: "sqft",
+          },
+        ],
+        calculations: [
+          {
+            label: "Eastern Neighborhoods Mixed Use District fee",
+            amount: "$ 142.66 / sqft",
+          },
+          {
+            label: "Central SOMA SUD fee",
+            amount: "$ 1,113.77 / sqft",
+          },
+        ],
+        calculate: () => {
+          const reqOpenSpace = parseInt($("#en-mu-reqOpenSpace").val() || "0");
+          const provOpenSpace = parseInt(
+            $("#en-mu-provOpenSpace").val() || "0"
+          );
+
+          const diff = reqOpenSpace - provOpenSpace;
+          const enMuDistrFee = diff * 142.66;
+          const centralSomaSudFee = diff * 1113.77;
+          return enMuDistrFee + centralSomaSudFee;
+        },
+      };
+
+      function calculateTotal() {
+        const applicableFees = [example_bikeFee, openSpaceFee];
+        const value = applicableFees.reduce((calculatedTotal, currFee) => {
+          return currFee.calculate() + calculatedTotal;
+        }, 0);
+        return {
+          value,
+          formatted: `$${value.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}`,
+        };
+      }
+
+      // run the total on init and whenever any input changes
+      $(document).ready(function () {
+        $("#total").text(calculateTotal().formatted);
+        $("input").on("input", function () {
+          $("#total").text(calculateTotal().formatted);
+        });
+
+        // TESTING: geometry
+        (async function getLocation() {
+          // First API call to get blklot
+          // const addressRes = await fetch(
+          //   "http://sfplanninggis.org/cpc_geocode/?search=555%20bryant%20st"
+          // ).then((d) => d.json());
+          // // Extract blklot from the response
+          // const blklot = addressRes.features[0].attributes.blklot;
+          // console.log("Block/Lot:", blklot);
+          // // Second API call to get area/district information using blklot
+          // const districtRes = await fetch(
+          //   `https://sfplanninggis.org/cpc_district_map/?blklot=${blklot}`
+          // ).then((d) => d.json());
+          // // Extract area names from the district response
+          // const areaNames = districtRes.features.map(
+          //   (feature) => feature.attributes.AREA_NAME
+          // );
+          // console.log("Area Names:", areaNames);
+          // Use areaNames to determine applicable fees
+          // const presets = {
+          //   where: fieldName + "='" + areaName + "'",
+          //   geometryType: "esriGeometryEnvelope",
+          //   spatialRel: "esriSpatialRelIntersects",
+          //   returnGeometry: true,
+          //   returnIdsOnly: false,
+          //   returnCountOnly: false,
+          //   returnZ: false,
+          //   returnM: false,
+          //   returnDistinctValues: false,
+          //   returnTrueCurves: false,
+          //   outSR: 102100,
+          //   f: "json",
+          // };
+          // this returns the fee geometry
+          // ex: set f = html so you can see the form
+          // const queryRes = await fetch(
+          //   "http://sfplanninggis.org/arcgiswa/rest/services/ImpactFees/MapServer/0/query?where=FEE%3D%27Market%20and%20Octavia%20Inclusionary%20Affordable%20Housing%20Fee%27&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects&returnGeometry=true&returnIdsOnly=false&returnCountOnly=false&returnZ=false&returnM=false&returnDistinctValues=false&returnTrueCurves=false&outSR=102100&f=json"
+          // ).then((d) => d.json());
+          // console.log("--- queryRes = ", queryRes);
+        })();
+      });
+    </script>
+  </head>
+
+  <body>
+    <div class="ctr">
+      <div class="header">
+        <h1>2024 SF planning impact fee calculator</h1>
+        <p class="subheader-text">
+          All calculations are made according to the
+          <a href="#">2024 SF impact fee register</a>. View fee registers of
+          previous years here.
+        </p>
+      </div>
+
+      <div class="base-inputs-ctr">
+        <div class="base-inputs-header">
+          <h2>Initial Information</h2>
+          <p class="subheader-text">
+            Fill in the fields below to start calculating fees. For GFA,
+            calculate as defined in
+            <a href="#">Sec. 401</a> rather than as defined in
+            <a href="#">Sec. 102</a>.
+          </p>
+        </div>
+        <div class="base-inputs-body">
+          <div>
+            <div>Street Address</div>
+            <input placeholder="123 Str" style="width: 100%" />
+          </div>
+          <div class="base-inputs-row">
+            <div>Units</div>
+            <div>
+              <div>Proposed</div>
+              <div class="input-ctr">
+                <input placeholder="0" type="number" />
+                <span>units</span>
+              </div>
+            </div>
+            <div>
+              <div>Proposed</div>
+              <div class="input-ctr">
+                <input placeholder="0" type="number" />
+                <span>units</span>
+              </div>
+            </div>
+            <div>
+              <div>Net</div>
+              <div class="input-ctr">
+                <input placeholder="0" type="number" disabled="true" />
+                <span>units</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="total-row">
+        <div>Planning Impact Fee</div>
+        <div>Total: <span id="total"></span></div>
+      </div>
+
+      <div class="fees-ctr">
+        <!-- Example card (simple) -->
+        <div class="fee-row">
+          <div class="card">
+            <div class="card-header">
+              <h4>Bicycle Parking In-Lieu Fee (<a href="#">Sec. 422</a>)</h4>
+            </div>
+            <div class="card-inputs">
+              <div>
+                <label>Class 2 bicycle parking spots</label>
+                <div class="input-ctr">
+                  <input placeholder="0" type="number" id="bike-spaces" />
+                  <span>parking spots</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-fee">
+              <h6>Fee</h6>
+              <p>$ 123.00</p>
+              <div class="card-calculations">Calculations</div>
+            </div>
+          </div>
+          <div class="fee-row-summary">
+            <div>Bicycle parking in-lieu fee</div>
+            <div>$ 649.58</div>
+          </div>
+        </div>
+
+        <!-- Example card (2 inputs) -->
+        <div class="fee-row">
+          <div class="card">
+            <div class="card-header">
+              <h4>
+                Open Space Fee in EN Mixed-Use and C-3-0 (SD) Districts (<a
+                  href="#"
+                  >Sec. 426</a
+                >)
+              </h4>
+            </div>
+            <div class="card-inputs">
+              <div>
+                <label>Required open space</label>
+                <div class="input-ctr">
+                  <input
+                    placeholder="0"
+                    type="number"
+                    id="en-mu-reqOpenSpace"
+                  />
+                  <span>sqft</span>
+                </div>
+              </div>
+              <div>
+                <label>Provided open space</label>
+                <div class="input-ctr">
+                  <input
+                    placeholder="0"
+                    type="number"
+                    id="en-mu-provOpenSpace"
+                  />
+                  <span>sqft</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-fee">
+              <h6>Fee</h6>
+              <p>$ 123.00</p>
+              <div class="card-calculations">Calculations</div>
+            </div>
+          </div>
+          <div class="fee-row-summary">
+            <div>Bicycle parking in-lieu fee</div>
+            <div>$ 649.58</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

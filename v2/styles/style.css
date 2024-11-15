@@ -1,0 +1,147 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+html,
+body {
+  height: 100%;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  color: #212121;
+  overflow-y: scroll;
+}
+
+a {
+  color: var(--teal-8);
+}
+
+input {
+  padding: 6px 12px;
+  border: 1px solid var(--grey-25);
+  border-radius: 6px;
+}
+
+h1 {
+  font-size: 24px;
+}
+h2 {
+  font-size: 20px;
+}
+h4 {
+  font-size: 18px;
+}
+h6 {
+  font-size: 16px;
+}
+
+.subheader-text {
+  color: var(--grey-60);
+}
+
+.base-inputs-ctr {
+  margin: 32px 0;
+  padding-bottom: 32px;
+  border-bottom: solid 1px var(--grey-10);
+}
+
+.base-inputs-body {
+  margin-top: 32px;
+}
+
+.base-inputs-body > *:not(:last-child) {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.base-inputs-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.fees-ctr > *:not(:last-child) {
+  margin-bottom: 28px;
+}
+
+.input-ctr {
+  position: relative;
+  max-width: 300px;
+}
+
+.input-ctr input {
+  width: 100%;
+}
+
+.input-ctr span {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--grey-60);
+}
+
+.ctr {
+  width: 100%;
+  max-width: 1200px;
+  padding: 24px;
+  margin: auto;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* TODO move this to the tab view */
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: solid 1px var(--grey-10);
+}
+
+.fee-row {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 16px;
+}
+
+.fee-row-summary {
+  padding-top: 12px;
+  color: var(--grey-70);
+}
+
+.card {
+  border-radius: 8px;
+  border: solid 1px var(--grey-10);
+  width: 100%;
+  padding: 24px;
+}
+
+/* space */
+.card > *:not(:last-child) {
+  margin-bottom: 32px;
+}
+
+.card-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.card-inputs .input-ctr {
+  max-width: 100%;
+}
+
+.card-fee h6 {
+  font-size: 16px;
+}
+
+.card-fee p {
+  font-size: 20px;
+}
+
+.card-calculations {
+  width: 100%;
+  border-top: solid 1px var(--grey-10);
+  margin-top: 12px;
+  padding-top: 12px;
+}

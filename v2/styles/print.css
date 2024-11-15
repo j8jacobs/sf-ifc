@@ -1,0 +1,9 @@
+/*
+ * Utilities for styling components in print mode
+ */
+
+ @media print {
+  .print-hide {
+    display: none;
+  }
+}
